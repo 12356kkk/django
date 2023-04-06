@@ -1,0 +1,28 @@
+python manage.py runserver 0.0.0.0:8000
+
+--defaults-file="C:\ProgramData\MySQL\MySQL Server 8.0\my.ini"
+
+hive --service metastore
+
+hive --service metastore &
+
+hive --service hiveserver2
+
+schematool -dbType mysql -initSchema
+
+hive --service metastore -p 9083 &
+
+netstat -tunlp | grep 9083
+
+create table if not exists data2(name String,eid Int)
+create table `data`.`table2`(`name` varchar(255),`eid` varchar(20)) default charset=utf8;
+
+MySQL Server 8.0my_2021-01-29T10-01-06
+mysql -u root -p
+show variables like "char%";
+
+./bin/sqoop export --connect jdbc:mysql://192.168.43.58:3306/data  --username root --password 12345678 --table table4 --fields-terminated-by '\001' --export-dir '/usr/local/hive/warehouse/hell1.db/data4'
+
+sqoop list-databases -connect jdbc:mysql://172.20.10.5:3306 -username root -password 12345678
+
+Caused by: MetaException(message:Hive Schema version 3.1.0 does not match metastore's schema version 1.2.0 Metastore is not upgraded or corrupt)

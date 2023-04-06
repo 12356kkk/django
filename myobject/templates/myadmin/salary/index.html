@@ -1,0 +1,89 @@
+{% extends 'myadmin/base.html' %}
+{% load static from staticfiles %}
+{% block main_body %}
+
+    <script src="{% static 'myadmin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            薪资排行
+            <small>就业数据分析系统</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+            <li class="active">薪资排名</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="col-lg-6 col-xs-6" id="main" style="width: 700px;height:600px;">
+                <div >
+                <h4 style="text-align: center">薪资排名</h4>
+                </div>
+                <div style="width:150%">
+                    <canvas id="canvas" ></canvas>
+                </div>
+                <script>
+                    var randomScalingFactor = function () {
+                        return Math.round(Math.random() * 100)
+                    };
+
+                    var shujuto1 =function () {
+                        var data=[]
+                       $.ajax({
+                           type: "get",//POST方式提交
+                            dataType: "json",//返回json类型
+                            url: '{% url "myadmin_salary_showdata" %}' ,//请求url
+                            async:false,//同步
+                            success: function (result) {
+                                  data = result.data;
+
+                            },
+                        });
+                        return data;
+                    }
+
+                    var shujuto2 =function () {
+                        var data=[]
+                       $.ajax({
+                           type: "get",//POST方式提交
+                            dataType: "json",//返回json类型
+                            url: '{% url "myadmin_salary_showdata" %}' ,//请求url
+                            async:false,//同步
+                            success: function (result) {
+                                  data = result.salary;
+
+                            },
+                        });
+                        return data;
+                    }
+
+                    var barChartData = {
+                        labels: shujuto2(),
+                        datasets: [
+                            {
+                                fillColor: "rgba(205,33,0,0.79)",
+                                strokeColor: "rgba(151,187,205,0.8)",
+                                highlightFill: "rgba(151,187,205,0.75)",
+                                highlightStroke: "rgba(151,187,205,1)",
+                                data: shujuto1()
+                            }
+                        ]
+
+                    }
+                    window.onload = function () {
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myBar = new Chart(ctx).Bar(barChartData, {
+                            responsive: true
+                        });
+                    }
+
+                </script>
+                <!-- /.card-body-->
+            </div>
+
+
+    </section>
+    <!-- /.content -->
+{% endblock %}

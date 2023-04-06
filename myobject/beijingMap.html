@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			.bjMap{width:220px;}
+			.bjMap h2,.bjMap p{margin:0px;padding:0px;}
+			.bjMap h2 img{width:200px;height:100px;border-radius:6px;margin:10px 0;}
+		</style>
+	</head>
+	<body>
+		<div id="main" style="height:900px;"></div>
+		<script type="text/JavaScript" src="js/echarts.min.js"></script>
+		<script type="text/JavaScript" src="js/beijing.js"></script>
+		<script type="text/javascript">
+		        echarts.registerMap('beijing', beijingJson);
+		        var chart = echarts.init(document.getElementById('main'));
+
+
+		        chart.setOption({
+		        	title:{
+		        		text: '北京市轮廓地图',
+	                    top: '3%',
+	                    left: 'center',
+	                    textStyle: {
+	                        fontSize: 20,
+	                        fontWeight: 600,
+	                        color: '#222'
+	                    }
+		        	},
+		        	tooltip: {
+		        		// 触发类型, 数据项图形触发
+		                trigger: 'item',
+		                formatter: function (val) {
+		                	return val.data.name + '<div class="bjMap">'
+		                	+ '<h2><img src="' + val.data.url + '"></h2>'
+		                	+ '<p>' + val.data.value + '</p>'
+		                	+ '</div>'
+		                }
+		            },
+
+		            series: [{
+		                type: 'map',
+		                map: 'beijing',
+		                roam: true,//是否开启鼠标缩放和平移漫游
+		                geoIndex: 0,// 不可缺少，否则无tooltip 指示效果
+		                label: {
+		                    normal: {
+		                        show: true,//显示省份标签
+		                        textStyle:{color:"#fff"}//省份标签字体颜色
+		                    },
+		                    emphasis: {//对应的鼠标悬浮效果
+		                        show: true,
+		                        textStyle:{color:"#323232"}
+		                    }
+		                },
+		                itemStyle: {
+		                    normal: {
+		                        borderWidth: .5,//区域边框宽度
+		                        borderColor: '#0550c3',//区域边框颜色
+		                        areaColor:"#17a34f",//区域颜色
+
+		                    },
+
+		                    emphasis: {
+		                        borderWidth: .95,//鼠标滑过区域，区域边框宽度
+		                        borderColor: '#fff',//鼠标滑过区域，区域边框颜色
+		                        areaColor:"#ff6511",//鼠标滑过区域背景色
+		                    }
+		                },
+		                data: [
+		                    {
+		                    	name: '延庆区',
+		                    	url:'https://pic3.zhimg.com/50/v2-497f0ce3c5a4f21c447edb9f08012a2f_hd.jpg',
+		                    	value: '好邻居！可玩的地儿多的数不过来！',
+		                    	lng: 115.981186,
+		                    	lat: 40.462706
+		                    },
+		                    {
+		                    	name: '怀柔区',
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg',
+		                    	value: '好邻居！可玩的地儿多的数不过来！',
+		                    	lng: 116.63853,
+		                    	lat: 40.322563
+		                    },
+		                    {
+		                    	name: '密云区',
+		                    	url:'https://pic4.zhimg.com/50/v2-270ccddee1da949f5a951da1220b373a_hd.jpg',
+		                    	value: '好邻居！可玩的地儿多的数不过来！',
+		                    	lng: 116.849551,
+		                    	lat: 40.382999
+		                    },
+		                    {
+		                    	name: '昌平区',
+		                    	url:'https://pic2.zhimg.com/50/v2-ec095df48d0362d3eb4d0525d4394e16_hd.jpg',
+		                    	value: '立水桥、回龙观、西三旗、明朝十三陵',
+		                    	lng: 116.237832,
+		                    	lat: 40.226854
+		                    },
+		                    {
+		                    	name: '顺义区',
+		                    	url:'https://pic4.zhimg.com/50/v2-4eab4a0caf6b0382c115005992bd6de0_hd.jpg',
+		                    	value: '顺义城关、天竺、南法信、高丽营',
+		                    	lng: 116.663242,
+		                    	lat: 40.1362
+		                    },
+		                    {
+		                    	name: '平谷区',
+		                    	url:'https://pic3.zhimg.com/50/v2-273aed32f94cceb43f03fa389265d8d7_hd.jpg',
+		                    	value: '平谷镇，金海湖镇，京东大溶洞',
+		                    	lng: 117.128025,
+		                    	lat: 40.147115
+		                    },
+		                    {
+		                    	name: '门头沟区',
+		                    	url:'https://pic2.zhimg.com/50/v2-8492e1436403ff4b1305ee031b2b7e94_hd.jpg',
+		                    	value: '百花山、妙峰山、潭柘寺、戒台寺、永定河',
+		                    	lng: 116.108179,
+		                    	lat: 39.94648
+		                    },
+		                    {
+		                    	name: '海淀区',
+		                    	url:'https://pic2.zhimg.com/50/v2-0a43a0d541eb2ff159c69122f2c1f154_hd.jpg',
+		                    	value: '中关村、五道口、公主坟、颐和园',
+		                    	lng: 116.304872,
+		                    	lat: 39.96553
+		                    },
+		                    {
+		                    	name: '石景山区',
+		                    	url:'https://pic3.zhimg.com/80/v2-48a9b57c60e2f15c818c02b879420b73_720w.jpg',
+		                    	value: '苹果园、老古城、衙门口、玉泉路',
+		                    	lng: 116.229612,
+		                    	lat: 39.912017
+		                    },
+		                    {
+		                    	name: '西城区',
+		                    	url:'https://pic3.zhimg.com/v2-00aac6ebd1fe7abb4f2dbc287152bbb5_r.jpg',
+		                    	value: '西单、什刹海、西直门、动物园',
+		                    	lng: 116.372397,
+		                    	lat: 39.918561
+		                    },
+		                    {
+		                    	name: '东城区',
+		                    	url:'https://pic2.zhimg.com/50/v2-f3ba9dcfdbf8ee9a16827be4ee63d62c_hd.jpg',
+		                    	value: '天安门、王府井、钟鼓楼、东内大街',
+		                    	lng: 116.42272,
+		                    	lat: 39.934579
+		                    },
+		                    {
+		                    	name: '朝阳区',
+		                    	url:'https://pic2.zhimg.com/50/v2-d8f9da83aa06b7f6982918272befe909_hd.jpg',
+		                    	value: '朝外大街、大北窑、亚运村、三里屯',
+		                    	lng: 116.449767,
+		                    	lat: 39.927254
+		                    },
+		                    {
+		                    	name: '通州区',
+		                    	url:'https://pic3.zhimg.com/50/v2-6234a8e355289891af36a7bc15186976_hd.jpg',
+		                    	value: '新华大街、北苑、管庄、八里桥',
+		                    	lng: 116.662928,
+		                    	lat: 39.917001
+		                    },
+		                    {
+		                    	name: '大兴区',
+		                    	url:'https://pic2.zhimg.com/50/v2-05ae0a59a3ab00eb5debdf5cece23cd3_hd.jpg',
+		                    	value: '黄村镇、西红门、亦庄、庞各庄',
+		                    	lng: 116.348053,
+		                    	lat: 39.732833
+		                    },
+		                    {
+		                    	name: '房山区',
+		                    	url:'https://pic2.zhimg.com/50/v2-4aa9534e0a120c7e4778e75ab07f2644_hd.jpg',
+		                    	value: '良乡、燕山、十渡、周口店',
+		                    	lng: 116.149892,
+		                    	lat: 39.755039
+		                    },
+		                    {
+		                    	name: '丰台区',
+		                    	url:'https://pic4.zhimg.com/50/v2-425af7e363e02c9a16b9b49fa2f9d395_hd.jpg',
+		                    	value: '丰台镇、方庄、大红门、卢沟桥',
+		                    	lng: 116.293105,
+		                    	lat: 39.865042
+		                    }
+		                  ]
+
+		            }],
+
+		        });
+		</script>
+	</body>
+</html>

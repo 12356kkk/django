@@ -1,0 +1,94 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据展示</title>
+    <!-- jQuery 3 -->
+    <script src="{% static 'myadmin/bower_components/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{% static 'myadmin/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'myadmin/dist/js/adminlte.min.js' %}"></script>
+
+    <script src="{% static 'myadmin/dist/js/edu-modal-alert-confirm.js' %}"></script>
+
+    <script src="{% static 'myadmin/bower_components/chart.js/Chart.js' %}"></script>
+    <script >
+        window.onload=function(){
+           alert("ok");
+        };
+    </script>
+</head>
+<body>
+    <h2>你好！</h2>
+    <table class="table table-hover">
+        <tr>
+                    <th>ID</th>
+                    <th>员工账号</th>
+                    <th>昵称</th>
+         </tr>
+        {% for vo in shujulist %}
+                    <tr>
+                    <td>{{ vo.id }}</td>
+                    <td>{{ vo.ka }}</td>
+                    <td>{{ vo.pa }}</td>
+                    </tr>
+        {% endfor %}
+    </table>
+
+    <div style="width: 450px;height:600px;">
+                <div style="width: 100%">
+                    <canvas id="canvas" height="450" width="600"></canvas>
+                </div>
+                <script>
+                    var randomScalingFactor = function () {
+                        return Math.round(Math.random() * 100)
+                    };
+                    var shujuto =function () {
+                        var data=[]
+                       $.ajax({
+                           type: "get",//POST方式提交
+                            dataType: "json",//返回json类型
+                            url: '{% url "myadmin_shuju_showdata" %}' ,//请求url
+                            async:false,//同步
+                            success: function (result) {
+                                  data = result.data;
+                            },
+                        });
+                        return data;
+                    }
+                    var barChartData = {
+                        labels: ["January", "February", "March"],
+                        datasets: [
+                            {
+                                fillColor: "rgba(220,220,220,0.5)",
+                                strokeColor: "rgba(220,220,220,0.8)",
+                                highlightFill: "rgba(220,220,220,0.75)",
+                                highlightStroke: "rgba(220,220,220,1)",
+                                data:shujuto()
+                            },
+                            {
+                                fillColor: "rgba(151,187,205,0.5)",
+                                strokeColor: "rgba(151,187,205,0.8)",
+                                highlightFill: "rgba(151,187,205,0.75)",
+                                highlightStroke: "rgba(151,187,205,1)",
+                                data:shujuto()
+                                {#data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]#}
+                            }
+                        ]
+
+                    }
+                    window.onload = function () {
+                        var ctx = document.getElementById("canvas").getContext("2d");
+                        window.myBar = new Chart(ctx).Bar(barChartData, {
+                            responsive: true
+                        });
+                    }
+
+                </script>
+                <!-- /.card-body-->
+    </div>
+    <a href="{% url 'myadmin_shuju_showdata' %}">点击</a>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			html,body{background-color: #000;width: 100%; height: 100%; margin: 0; padding: 0; }
+			.china{width: 100%; height: 100%;box-shadow: 0px 0px 25px rgba(255,255,255,0.5) inset;}
+			.bjMap{}
+			.bjMap h2,.bjMap p{margin:0px;padding:0px;}
+			.bjMap h2 img{width:100%; max-width: 230px; height:120px;border-radius:6px;margin:10px 0;}
+			.bjMap p{}
+		</style>
+	</head>
+	<body>
+		<div id="main" style="" class="china"></div>
+		<script type="text/JavaScript" src="js/echarts.min.js"></script>
+		<script type="text/JavaScript" src="js/china.js"></script>
+		<script type="text/javascript">
+		        echarts.registerMap('china', chinaJson);
+		        var chart = echarts.init(document.getElementById('main'));
+		        
+		        
+		        chart.setOption({
+		        	title:{
+		        		text: '中国轮廓地图',
+	                    top: '3%',
+	                    left: 'center',
+	                    textStyle: {
+	                        fontSize: 20,
+	                        fontWeight: 600,
+	                        color: '#fff'
+	                    }
+		        	},
+		        	tooltip: {
+		        		// 触发类型, 数据项图形触发
+		                trigger: 'item', 
+						backgroundColor:'#fff',
+						textStyle:{
+						    color:'#000',
+						},
+		                formatter: function (val) {
+		                	return val.data.name + '<div class="bjMap">'
+		                	+ '<h2><img src="' + val.data.url + '"></h2>'
+		                	+ '<p>' + val.data.value + '</p>'
+		                	+ '</div>'
+		                }
+		            },
+		            series: [{
+		                type: 'map',
+		                map: 'china',
+		                roam: true,//是否开启鼠标缩放和平移漫游
+		                geoIndex: 0,// 不可缺少，否则无tooltip 指示效果
+		                label: {
+		                    normal: {
+		                        show: true,//显示省份标签
+		                        textStyle:{color:"#fff"}//省份标签字体颜色
+		                    },
+		                    emphasis: {//对应的鼠标悬浮效果
+		                        show: true,
+		                        textStyle:{color:"#fff"}
+		                    }
+		                },
+		                itemStyle: {
+		                    normal: {
+		                        borderWidth: 1.95,//区域边框宽度
+		                        borderColor: '#0550c3',//区域边框颜色
+		                        areaColor:"#000",//区域颜色
+
+		                    },
+
+		                    emphasis: {
+		                        borderWidth: 1.95,//鼠标滑过区域，区域边框宽度
+		                        borderColor: '#fff',//鼠标滑过区域，区域边框颜色
+		                        areaColor:"#ff6511",//鼠标滑过区域背景色
+		                    }
+		                },
+		                data: [
+		                    { 
+		                    	name: '北京',
+		                    	url:'https://pic3.zhimg.com/50/v2-497f0ce3c5a4f21c447edb9f08012a2f_hd.jpg',
+		                    	value: '中国帝都', 
+		                    },
+							{
+								name: '上海', 
+								url:'https://pic3.zhimg.com/50/v2-497f0ce3c5a4f21c447edb9f08012a2f_hd.jpg', 
+								value: '1221',
+							},
+							{
+								name: '天津', 
+								url:'https://pic3.zhimg.com/50/v2-497f0ce3c5a4f21c447edb9f08012a2f_hd.jpg', 
+								value: '好邻居！可玩的地儿多的数不过来！', 
+							},
+							{
+								name: '重庆', 
+								url:'https://pic3.zhimg.com/50/v2-497f0ce3c5a4f21c447edb9f08012a2f_hd.jpg', 
+								value: '好邻居！可玩的地儿多的数不过来！', 
+							},
+		                    { 
+		                    	name: '河北', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+							{ 
+								name: '山东', 
+								url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+								value: '好邻居！可玩的地儿多的数不过来！', 
+							},
+		                    { 
+		                    	name: '陕西', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '山西', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '辽宁', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '吉林', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '黑龙江', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '宁夏', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '江苏', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '河南', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '安徽', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '浙江', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '湖南', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '湖北', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '甘肃', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '青海', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '西藏', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '新疆', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '内蒙古', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '贵州', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '四川', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '江西', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '福建', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '广东', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '广西', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '云南', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '海南', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '香港', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '澳门', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    },
+		                    { 
+		                    	name: '台湾', 
+		                    	url:'https://pic4.zhimg.com/50/v2-aa7a3d295d326b7b3c465182adbb0e2b_hd.jpg', 
+		                    	value: '好邻居！可玩的地儿多的数不过来！', 
+		                    }
+		                    
+		                  ]
+		      
+		             /*    data:[
+		                	{
+				        	      name: '西城',
+				        	      value: 100
+				        	    }, {
+				        	      name: '东城',
+				        	      value: 0
+				        	    }, {
+				        	      name: '海淀',
+				        	      value: 60
+				        	    }, {
+				        	      name: '朝阳',
+				        	      value: 0
+				        	    }, {
+				        	      name: '大兴',
+				        	      value: 60
+				        	    }, {
+				        	      name: '通州',
+				        	      value: 60
+				        	    }, {
+				        	      name: '丰台',
+				        	      value: 0
+				        	    }
+		                ] */
+		            }],
+					
+		        });
+		</script>
+	</body>
+</html>
