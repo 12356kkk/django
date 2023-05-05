@@ -1,0 +1,7 @@
+tqdm==4.52.0
+joblib==1.0.0
+Django==2.2.13
+statsmodels==0.12.2
+pandas==1.1.4
+PyMySQL==1.0.2
+tushare==1.2.84

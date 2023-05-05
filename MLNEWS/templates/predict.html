@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+{% block title %}  {% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            background-color: #E8E8E8;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="layui-card container" style="margin-top: 20px">
+        <div class="layui-card-header">数据集内未来十天股票预测</div>
+        <div class="layui-card-body">
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="width: 86px">选择预测</label>
+                    <div class="layui-input-inline">
+                        <select name="code">
+                            <option disabled value="">请选择股票代码</option>
+                            {% for tmp in code_list %}
+                                <option value="{{ tmp }}">{{ tmp }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="layui-input-inline">
+                        <div class="layui-input-block">
+                            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="layui-card container" style="margin-top: 20px">
+        <div class="layui-card-header">未来十天预测趋势图</div>
+        <div class="layui-card-body">
+            <div class="layui-fluid" style="">
+                <div id="container1" style="height: 400px"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+    </script>
+    <script src="/static/js/echarts.min.js"></script>
+    <!-- 1 股票走势图--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container1");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+        option = {
+
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:  {{ legend |safe }}/*['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']*/
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: {{ date_x |safe }}
+                /*['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']*/
+            },
+            yAxis: {
+                scale: true,
+                type: 'value'
+            },
+            series: {{ data |safe }} /*[{
+                name: 'Email',
+                type: 'line',
+                stack: 'Total',
+                data: [120, 132, 101, 134, 90, 230, 210]
+            }, {
+                name: 'Union Ads',
+                type: 'line',
+                stack: 'Total',
+                data: [220, 182, 191, 234, 290, 330, 310]
+            }, {
+                name: 'Video Ads',
+                type: 'line',
+                stack: 'Total',
+                data: [150, 232, 201, 154, 190, 330, 410]
+            }, {
+                name: 'Direct',
+                type: 'line',
+                stack: 'Total',
+                data: [320, 332, 301, 334, 390, 330, 320]
+            }, {
+                name: 'Search Engine',
+                type: 'line',
+                stack: 'Total',
+                data: [820, 932, 901, 934, 1290, 1330, 1320]
+            }]*/
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+{% endblock %}

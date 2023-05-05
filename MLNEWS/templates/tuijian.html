@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block title %}  {% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            background-color: #E8E8E8;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <h1 style="text-align: center;color: red;margin-top: 10px">以下为您推荐：</h1>
+    <div class="layui-fluid container" style="margin-top: 20px">
+        <div class="layui-row layui-col-space15">
+            {% for data in data_list %}
+                <div class="layui-col-sm6 layui-col-md4">
+                    <div class="layui-card">
+                        <div class="layui-card-header">收藏<span
+                                class="layui-badge layui-bg-cyan layuiadmin-badge">{{ data.star }}</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            浏览<span class="layui-badge layui-bg-cyan layuiadmin-badge">{{ data.history }}</span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% ifnotequal data.score 0 %}
+                                推荐分<span class="layui-badge layui-bg-cyan layuiadmin-badge">{{ data.score }}</span>
+                            {% endifnotequal %}
+                        </div>
+                        <div class="layui-card-body  ">
+                            <p class="layuiadmin-big-font" style="color:#FF5722 ">{{ data.code }}</p>
+                            <p>
+                                <a hid="{{ data.id }}" target="_blank" href="{{ data.url }}"
+                                   class="see layui-btn layui-btn-normal layui-btn-sm">{{ data.name }}</a>
+                                <span class="layuiadmin-span-color" style="color: #1E9FFF">
+
+                                </span>
+                                {% if data.is_star %}
+                                    <i style="color: red" code="{{ data.code }}" class="star layui-icon">&#xe67a;</i>
+                                {% else %}
+                                    <i code="{{ data.code }}" class="star layui-icon">&#xe67a;</i>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $('.star').click(function () {
+            var code = $(this).attr('code')
+            var ths = this
+            $.ajax({
+                url: '{% url "star" %}',
+                dataType: 'json',
+                method: 'post',
+                //JSON.stringify(data.field)
+                //data: new FormData(  document.getElementById('submitNote') ),
+                data: {
+                    'code': code
+                },
+                success: function (data) {
+                    {#$('.star').css('color', data.color)#}
+                    alert(data.msg)
+                    $(ths).css('color', data.color)
+                }
+            });
+        })
+
+    </script>
+{% endblock %}

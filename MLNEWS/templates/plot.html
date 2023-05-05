@@ -1,0 +1,331 @@
+{% extends "layout.html" %}
+{% block title %}  {% endblock %}
+
+{% block css %}
+    <style>
+        body {
+            background-color: #F1F1F1;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div style="width: 600px;margin: 3px auto">
+        <form class="layui-form" action="{% url 'plot' %}" style="text-align: center;width: 1200px;margin: 20px auto" method="get">
+            <div class="layui-form-item">
+                <label class="layui-form-label" style="width: 200px">选择股票代码</label>
+                <div class="layui-input-inline">
+                    <select name="code" id="">
+                        {% for temp in code_list %}
+                            <option {% ifequal code  temp %} {% endifequal %} value="{{ temp }}">{{ temp }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <button id="find" class="layui-btn" lay-submit lay-filter="formDemo">立即查找</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-fluid" style="width: 90%;margin: 10px auto">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs12">
+                <div class="layui-card">
+                    <div class="layui-card-header"> 股票走势图</div>
+                    <div class="layui-card-body">
+                        <div id="container1" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs12">
+                <div class="layui-card">
+                    <div class="layui-card-header">股票 4个指数图折线图</div>
+                    <div class="layui-card-body">
+                        <div id="container2" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs6">
+                <div class="layui-card">
+                    <div class="layui-card-header">价格区间个数</div>
+                    <div class="layui-card-body">
+                        <div id="container3" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs6">
+                <div class="layui-card">
+                    <div class="layui-card-header">价格日期排行榜</div>
+                    <div class="layui-card-body">
+                        <div id="container4" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-xs12">
+                <div class="layui-card">
+                    <div class="layui-card-header"> 5 成交量和价格散点图</div>
+                    <div class="layui-card-body">
+                        <div id="container5" style="height: 400px"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        //Demo
+        layui.use('form', function () {
+            var form = layui.form;
+            //监听提交
+            form.on('submit(formDemo)', function (data) {
+                {#layer.msg(JSON.stringify(data.field));#}
+                return true;
+            });
+        });
+    </script>
+    <script src="/static/js/echarts.min.js"></script>
+    <!-- 1 股票走势图--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container1");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+        option = {
+
+            xAxis: {
+                type: 'category',
+                data: {{ main1_x |safe }}
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: {{ main1_y |safe }},
+                type: 'line',
+                smooth: true
+            }]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+
+    <!-- 2 股票 4个指数图折线图--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container2");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+        option = {
+
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:  {{ main2_legend |safe }}/*['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']*/
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: {{ main2_x |safe }}
+                    /*['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']*/
+            },
+            yAxis: {
+                scale: true,
+                type: 'value'
+            },
+            series: {{ main2_y |safe }} /*[{
+                name: 'Email',
+                type: 'line',
+                stack: 'Total',
+                data: [120, 132, 101, 134, 90, 230, 210]
+            }, {
+                name: 'Union Ads',
+                type: 'line',
+                stack: 'Total',
+                data: [220, 182, 191, 234, 290, 330, 310]
+            }, {
+                name: 'Video Ads',
+                type: 'line',
+                stack: 'Total',
+                data: [150, 232, 201, 154, 190, 330, 410]
+            }, {
+                name: 'Direct',
+                type: 'line',
+                stack: 'Total',
+                data: [320, 332, 301, 334, 390, 330, 320]
+            }, {
+                name: 'Search Engine',
+                type: 'line',
+                stack: 'Total',
+                data: [820, 932, 901, 934, 1290, 1330, 1320]
+            }]*/
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+    <!-- 3 价格区间个数--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container3");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+        option = {
+            title: {
+                {#text: 'Referer of a Website',#}
+                {#subtext: 'Fake Data',#}
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left'
+            },
+            series: [{
+                name: '个数',
+                type: 'pie',
+                radius: '75%',
+                data: {{ main3_data |safe }}
+                /*[{
+                value: 1048,
+                name: 'Search Engine'
+            }, {
+                value: 735,
+                name: 'Direct'
+            }, {
+                value: 580,
+                name: 'Email'
+            }, {
+                value: 484,
+                name: 'Union Ads'
+            }, {
+                value: 300,
+                name: 'Video Ads'
+            }]*/,
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+    <!-- 4柱状图--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container4");
+        var myChart = echarts.init(dom);
+        var app = {};
+
+        var option;
+
+
+        option = {
+             tooltip: {
+                trigger: 'item'
+            },
+            xAxis: {
+                type: 'category',
+                data: {{ main4_x|safe }}
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: {{ main4_y|safe }},
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(180, 180, 180, 0.2)'
+                }
+            }]
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+    <!-- 5 成交量和价格散点图--->
+    <script type="text/javascript">
+        var dom = document.getElementById("container5");
+        var myChart = echarts.init(dom);
+        var app = {};
+        var option;
+        option = {
+              tooltip: {
+                trigger: 'item'
+            },
+            xAxis: {},
+            yAxis: {},
+            series: [{
+                symbolSize: 5,
+                data: {{ main5 |safe }},
+                /*[
+                [10.0, 8.04],
+                [8.07, 6.95],
+                [13.0, 7.58],
+                [9.05, 8.81],
+                [11.0, 8.33],
+                [14.0, 7.66],
+                [13.4, 6.81],
+                [10.0, 6.33],
+                [14.0, 8.96],
+                [12.5, 6.82],
+                [9.15, 7.2],
+                [11.5, 7.2],
+                [3.03, 4.23],
+                [12.2, 7.83],
+                [2.02, 4.47],
+                [1.05, 3.33],
+                [4.05, 4.96],
+                [6.03, 7.24],
+                [12.0, 6.26],
+                [12.0, 8.84],
+                [7.08, 5.82],
+                [5.02, 5.68]
+            ],*/
+                type: 'scatter'
+            }]
+        };
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    </script>
+{% endblock %}
